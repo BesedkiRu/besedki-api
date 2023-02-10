@@ -1,16 +1,16 @@
 {
   "type": "postgres",
-  "host": "db",
+  "host": "127.0.0.1",
   "port": 5432,
   "username": "postgres",
   "password": "root",
-  "database": "letevent_core",
+  "database": "besedki-api",
   "entities": [
-    "dist/**/*.entity{.ts,.js}"
+    "**/*.entity{.ts,.js}"
   ],
   "migrationsTableName": "migration",
   "migrations": [
-    "dist/migration/*.ts"
+    "src/migration/*.ts"
   ],
   "cli": {
     "migrationsDir": "src/migration"
