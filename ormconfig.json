@@ -6,7 +6,7 @@
   "password": "root",
   "database": "besedki-api",
   "entities": [
-    "**/*.entity{.ts,.js}"
+    "src/**/*.entity{.ts,.js}"
   ],
   "migrationsTableName": "migration",
   "migrations": [

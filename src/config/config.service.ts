@@ -42,7 +42,7 @@ class ConfigService {
         `${
           this.isProduction()
             ? 'dist/**/*.entity{.ts,.js}'
-            : '**/*.entity{.ts,.js}'
+            : 'src/**/*.entity{.ts,.js}'
         }`,
       ],
 
