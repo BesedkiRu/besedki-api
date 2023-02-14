@@ -32,6 +32,7 @@ export class UserEntity {
   @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.id, {
     onDelete: 'SET NULL',
     onUpdate: 'RESTRICT',
+    nullable: true,
   })
   @JoinColumn([{ name: 'role_id', referencedColumnName: 'id' }])
   role: RoleEntity | number;
@@ -42,6 +43,7 @@ export class UserEntity {
     {
       onDelete: 'SET NULL',
       onUpdate: 'RESTRICT',
+      nullable: true,
     },
   )
   @JoinColumn([{ name: 'organization_id', referencedColumnName: 'id' }])
