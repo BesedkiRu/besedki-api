@@ -24,7 +24,7 @@ export class OrganizationEntity {
   @Column('text', { name: 'email' })
   email: string;
 
-  @Column('text', { name: 'password' })
+  @Column('text', { name: 'phone' })
   phone: string;
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.organization)
