@@ -25,4 +25,11 @@ export class AuthController {
   registration(@Body() dto: CreateUserDto) {
     return this.authService.registration(dto);
   }
+
+  // @ApiOperation({ summary: 'Обновление auth токенов' })
+  // @ApiResponse({ type: TokensDto, status: 200 })
+  // @Post('/refresh')
+  // refreshTokens(@Body() dto: TokensDto) {
+  //   return this.authService.refreshTokens(dto);
+  // }
 }

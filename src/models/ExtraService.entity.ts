@@ -3,14 +3,9 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { OrganizationEntity } from './Organization.entity';
-import { RoleEntity } from './Roles.entity';
-import { PavilionMapEntity } from './PavilionMap.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Index('extra_service_pkey', ['id'], { unique: true })

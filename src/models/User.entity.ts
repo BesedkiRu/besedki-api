@@ -1,15 +1,15 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { RoleEntity } from './Roles.entity';
 import { OrganizationEntity } from './Organization.entity';
+import { UserRole } from '../enum-types/enum-type';
 
 @Index('user_pkey', ['id'], { unique: true })
 @Entity('user', { schema: 'public' })
@@ -29,13 +29,12 @@ export class UserEntity {
   @Column('text', { name: 'password' })
   password: string;
 
-  @ManyToOne(() => RoleEntity, (role: RoleEntity) => role.id, {
-    onDelete: 'SET NULL',
-    onUpdate: 'RESTRICT',
-    nullable: true,
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.CLIENT,
   })
-  @JoinColumn([{ name: 'role_id', referencedColumnName: 'id' }])
-  role: RoleEntity | number;
+  role: UserRole;
 
   @ManyToOne(
     () => OrganizationEntity,
@@ -47,7 +46,7 @@ export class UserEntity {
     },
   )
   @JoinColumn([{ name: 'organization_id', referencedColumnName: 'id' }])
-  organization: RoleEntity | number;
+  organization: OrganizationEntity | number;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   public created_at: Date;

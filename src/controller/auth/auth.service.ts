@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokensDto } from './dto/tokens.dto';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
+import { RefreshTokenDto } from './dto/refreshToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -59,4 +60,7 @@ export class AuthService {
       refresh_token: this.jwtService.sign(payload, { expiresIn: '30 days' }),
     };
   }
+  // async refreshTokens(refreshToken: RefreshTokenDto): Promise<TokensDto> {
+  //   return a
+  // }
 }
