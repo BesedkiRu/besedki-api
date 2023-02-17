@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { OrganizationEntity } from './Organization.entity';
 import { UserRole } from '../enum-types/enum-type';
+import { Exclude } from 'class-transformer';
 
 @Index('user_pkey', ['id'], { unique: true })
 @Entity('user', { schema: 'public' })
@@ -26,6 +27,7 @@ export class UserEntity {
   @Column('text', { name: 'email' })
   email: string;
 
+  @Exclude()
   @Column('text', { name: 'password' })
   password: string;
 

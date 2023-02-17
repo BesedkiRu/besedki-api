@@ -9,6 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
+import { UserService } from '../user/user.service';
 
 export function handleError(e) {
   throw e;
@@ -18,12 +19,11 @@ export function handleError(e) {
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly userService: UserService,
     private reflector: Reflector,
   ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     try {
       const authHeader = request.headers.authorization;
@@ -37,7 +37,8 @@ export class JwtAuthGuard implements CanActivate {
           }),
         );
       }
-      request.user = this.jwtService.verify(token);
+      const tokenPayload = this.jwtService.verify(token);
+      request.user = await this.userService.getUserByEmail(tokenPayload.email);
     } catch (e) {
       handleError(
         new UnauthorizedException({

@@ -9,7 +9,6 @@ import { UserModule } from '../user/user.module';
   providers: [AuthService],
   imports: [
     forwardRef(() => UserModule),
-    UserModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secretary',
     }),
