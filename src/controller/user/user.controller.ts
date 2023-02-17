@@ -1,7 +1,6 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Headers, HttpStatus } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { Headers } from '@nestjs/common';
 
 @Controller('user')
 export class UserController {
@@ -12,7 +11,6 @@ export class UserController {
   })
   @Get('/me')
   getUserByToken(@Headers() headers) {
-    console.log(headers.Authorization);
     return HttpStatus.OK;
   }
 }
