@@ -5,7 +5,6 @@ import { JwtService } from '@nestjs/jwt';
 import { TokensDto } from './dto/tokens.dto';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
-import { RefreshTokenDto } from './dto/refreshToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -54,6 +53,7 @@ export class AuthService {
     const payload = {
       id: user.id,
       email: user.email,
+      role: user.role,
     };
     return {
       access_token: this.jwtService.sign(payload, { expiresIn: '30m' }),

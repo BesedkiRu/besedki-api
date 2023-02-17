@@ -1,18 +1,18 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { UserService } from './user.service';
-import { Headers } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({
     summary: 'Получить пользователя',
   })
   @Get('/me')
-  getUserByToken(@Headers() headers) {
-    console.log(headers.Authorization);
-    return HttpStatus.OK;
+  getUserByToken(@Req() request) {
+    return request.user;
   }
 }
