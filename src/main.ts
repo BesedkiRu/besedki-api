@@ -10,18 +10,17 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
-  if (!configService.isProduction()) {
-    const document = SwaggerModule.createDocument(
-      app,
-      new DocumentBuilder()
-        .setTitle('Item API')
-        .setDescription('My Item API')
-        .build(),
-    );
+  const document = SwaggerModule.createDocument(
+    app,
+    new DocumentBuilder()
+      .setTitle('Item API')
+      .setDescription('My Item API')
+      .build(),
+  );
 
-    SwaggerModule.setup('docs', app, document);
-  }
+  SwaggerModule.setup('docs', app, document);
   await app.listen(configService.getPort());
   console.log(`Server start on port: ${configService.getPort()}`);
 }
+
 bootstrap();
