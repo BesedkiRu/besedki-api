@@ -15,6 +15,7 @@ async function bootstrap() {
     new DocumentBuilder()
       .setTitle('Item API')
       .setDescription('My Item API')
+      .addBearerAuth()
       .build(),
   );
 
