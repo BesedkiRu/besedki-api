@@ -5,6 +5,8 @@ import { JwtService } from '@nestjs/jwt';
 import { TokensDto } from './dto/tokens.dto';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
+import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { UserEntity } from '../../models/User.entity';
 
 @Injectable()
 export class AuthService {
@@ -56,11 +58,30 @@ export class AuthService {
       role: user.role,
     };
     return {
-      access_token: this.jwtService.sign(payload, { expiresIn: '30m' }),
-      refresh_token: this.jwtService.sign(payload, { expiresIn: '30 days' }),
+      access_token: this.jwtService.sign(
+        { ...payload, type: 'access' },
+        { expiresIn: '30m' },
+      ),
+      refresh_token: this.jwtService.sign(
+        { ...payload, type: 'refresh' },
+        { expiresIn: '30 days' },
+      ),
     };
   }
-  // async refreshTokens(refreshToken: RefreshTokenDto): Promise<TokensDto> {
-  //   return a
-  // }
+
+  async refreshTokens(refreshToken: RefreshTokenDto): Promise<TokensDto> {
+    try {
+      const tokenPayload = this.jwtService.verify(refreshToken.refresh);
+      if (tokenPayload) {
+        const user = await this.userService.getUserById(tokenPayload.id);
+        if (user) {
+          return await this.generateTokens(user);
+        }
+      }
+    } catch (e) {}
+    throw new HttpException(
+      'Токен невалидный или истек срок годности',
+      HttpStatus.UNAUTHORIZED,
+    );
+  }
 }

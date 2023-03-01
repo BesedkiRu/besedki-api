@@ -5,7 +5,7 @@ export class LoginDto {
   @IsEmail()
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ example: 'test@mail.com' })
+  @ApiProperty({ example: 'test@mail.ru' })
   readonly email: string;
 
   @IsNotEmpty()

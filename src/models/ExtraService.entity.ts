@@ -23,9 +23,11 @@ export class ExtraServiceEntity {
   @Column('text', { name: 'name' })
   name: string;
 
+  @ApiProperty({ example: '2023-02-17 01:43:31.438015+03' })
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   public created_at: Date;
 
+  @ApiProperty({ example: '2023-02-17 01:43:31.438015+03' })
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
