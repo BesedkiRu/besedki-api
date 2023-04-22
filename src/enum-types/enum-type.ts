@@ -4,3 +4,8 @@ export enum UserRole {
   OWNER = 'owner',
   EMPLOYEE = 'employee',
 }
+
+export enum PavilionType {
+  HOUSE = 'house',
+  PAVILION = 'pavilion',
+}

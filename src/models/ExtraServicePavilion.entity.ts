@@ -17,10 +17,14 @@ export class ExtraServicePavilionEntity {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @ManyToOne(() => PavilionEntity, (pavilion: PavilionEntity) => pavilion.id, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(
+    () => PavilionEntity,
+    (pavilion: PavilionEntity) => pavilion.extraServices,
+    {
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
+  )
   @JoinColumn([{ name: 'pavilion_id', referencedColumnName: 'id' }])
   pavilion: PavilionEntity | number;
 
@@ -35,7 +39,7 @@ export class ExtraServicePavilionEntity {
   @JoinColumn([{ name: 'extra_service_id', referencedColumnName: 'id' }])
   extraService: ExtraServiceEntity | number;
 
-  @Column('numeric', { name: 'price', nullable: true, default: 0 })
+  @Column('numeric', { name: 'price', default: 0 })
   price: number | null;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

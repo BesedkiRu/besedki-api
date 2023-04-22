@@ -7,6 +7,7 @@ import { UserModule } from './controller/user/user.module';
 import { AuthModule } from './controller/auth/auth.module';
 import { OrganizationModule } from './controller/organization/organization.module';
 import { PavilionMapModule } from './controller/pavilionMap/pavilionMap.module';
+import { PavilionModule } from './controller/pavilion/pavilion.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { PavilionMapModule } from './controller/pavilionMap/pavilionMap.module';
     AuthModule,
     OrganizationModule,
     PavilionMapModule,
+    PavilionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,7 @@ import { PavilionMapEntity } from '../../models/PavilionMap.entity';
 @ApiTags('Карта беседок')
 @Controller('pavilion_map')
 export class PavilionMapController {
-  constructor(private readonly organizationService: PavilionMapService) {}
+  constructor(private readonly pavilionMapService: PavilionMapService) {}
 
   @ApiOperation({
     summary: 'Создать карту беседок',
@@ -15,6 +15,6 @@ export class PavilionMapController {
   @ApiResponse({ type: PavilionMapEntity, status: 201 })
   @Post('/create')
   getUserByToken(@Body() dto: CreatePavilionMapDto) {
-    return this.organizationService.createPavilionMap(dto);
+    return this.pavilionMapService.createPavilionMap(dto);
   }
 }

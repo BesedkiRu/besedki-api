@@ -6,7 +6,7 @@ export class CreatePavilionMapDto {
 
   @IsNotEmpty()
   @IsString()
-  @ApiProperty({ example: 'ООО Чайка' })
+  @ApiProperty({ example: 'Лебяжье' })
   readonly name: string;
 
   @IsNotEmpty()
