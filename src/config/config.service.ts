@@ -48,9 +48,7 @@ class ConfigService {
 
       migrationsTableName: 'migration',
 
-      migrations: [
-        `${this.isProduction() ? 'dist/migration/*.js' : 'src/migration/*.ts'}`,
-      ],
+      migrations: [`src/migration/*.ts`],
 
       cli: {
         migrationsDir: 'src/migration',
