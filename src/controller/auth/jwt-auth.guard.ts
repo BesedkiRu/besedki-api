@@ -6,12 +6,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 import { UserService } from '../user/user.service';
 
-export function handleError(e) {
+export function throwError(e) {
   throw e;
 }
 
@@ -31,16 +30,16 @@ export class JwtAuthGuard implements CanActivate {
       const token = authHeader.split(' ')[1];
 
       if (bearer !== 'Bearer' || !token) {
-        handleError(
+        throwError(
           new UnauthorizedException({
             message: 'Пользователь не авторизован',
           }),
         );
       }
       const tokenPayload = this.jwtService.verify(token);
-      request.user = await this.userService.getUserByEmail(tokenPayload.email);
+      request.user = await this.userService.getUserById(tokenPayload.id);
     } catch (e) {
-      handleError(
+      throwError(
         new UnauthorizedException({
           message: 'Пользователь не авторизован',
           error: e,
@@ -52,7 +51,7 @@ export class JwtAuthGuard implements CanActivate {
       return true;
     }
     if (!roles.includes(request.user.role)) {
-      handleError(new HttpException('Нет доступа', HttpStatus.FORBIDDEN));
+      throwError(new HttpException('Нет доступа', HttpStatus.FORBIDDEN));
     }
     return true;
   }

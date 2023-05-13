@@ -11,10 +11,9 @@ import {
 } from 'typeorm';
 import { PavilionMapEntity } from './PavilionMap.entity';
 import { ExtraServicePavilionEntity } from './ExtraServicePavilion.entity';
-import { PavilionType } from '../enum-types/enum-type';
+import { PavilionType } from '../types/enum-type';
 import { ApiProperty } from '@nestjs/swagger';
-import { serviceExample } from '../enum-types/examples';
-import { ExtraServiceEntity } from './ExtraService.entity';
+import { serviceExample } from '../types/examples';
 
 @Index('pavilion_pkey', ['id'], { unique: true })
 @Entity('pavilion', { schema: 'public' })

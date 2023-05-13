@@ -9,8 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { OrganizationEntity } from './Organization.entity';
-import { UserRole } from '../enum-types/enum-type';
-import { Exclude } from 'class-transformer';
+import { UserRole } from '../types/enum-type';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Index('user_pkey', ['id'], { unique: true })
@@ -32,8 +31,7 @@ export class UserEntity {
   @Column('text', { name: 'email' })
   email: string;
 
-  @Exclude()
-  @Column('text', { name: 'password' })
+  @Column('text', { name: 'password', select: false })
   password: string;
 
   @ApiProperty({ example: UserRole.CLIENT })
@@ -46,7 +44,7 @@ export class UserEntity {
 
   @ManyToOne(
     () => OrganizationEntity,
-    (organization: OrganizationEntity) => organization.id,
+    (organization: OrganizationEntity) => organization.users,
     {
       onDelete: 'SET NULL',
       onUpdate: 'RESTRICT',

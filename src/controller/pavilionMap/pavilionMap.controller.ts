@@ -14,7 +14,7 @@ export class PavilionMapController {
   })
   @ApiResponse({ type: PavilionMapEntity, status: 201 })
   @Post('/create')
-  getUserByToken(@Body() dto: CreatePavilionMapDto) {
+  createPavilionMap(@Body() dto: CreatePavilionMapDto) {
     return this.pavilionMapService.createPavilionMap(dto);
   }
 }

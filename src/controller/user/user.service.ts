@@ -15,11 +15,29 @@ export class UserService {
     return await this.repo.save(dto);
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(email: string, selectPassword = false) {
+    if (selectPassword) {
+      return this.repo
+        .createQueryBuilder('user')
+        .addSelect('user.password')
+        .where('user.email = :email', { email })
+        .getOne();
+    }
     return await this.repo.findOne({ email });
   }
 
-  async getUserById(id: number) {
+  async getUserById(id: number, selectPassword = false) {
+    if (selectPassword) {
+      return this.repo
+        .createQueryBuilder('user')
+        .addSelect('user.password')
+        .where('user.id = :id', { id })
+        .getOne();
+    }
     return await this.repo.findOne({ id });
+  }
+
+  async updateUser(user: UserEntity) {
+    return await this.repo.save(user);
   }
 }

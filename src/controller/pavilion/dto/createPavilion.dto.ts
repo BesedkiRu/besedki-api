@@ -1,4 +1,4 @@
-import { PavilionType } from '../../../enum-types/enum-type';
+import { PavilionType } from '../../../types/enum-type';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEnum,

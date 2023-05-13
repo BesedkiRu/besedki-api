@@ -1,5 +1,5 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserEntity } from '../../models/User.entity';
@@ -12,6 +12,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Получить пользователя',
   })
+  @ApiBearerAuth()
   @ApiResponse({ type: UserEntity, status: 200 })
   @Get('/me')
   getUserByToken(@Req() request) {

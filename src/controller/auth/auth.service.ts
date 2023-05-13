@@ -6,7 +6,6 @@ import { TokensDto } from './dto/tokens.dto';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
-import { UserEntity } from '../../models/User.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +15,9 @@ export class AuthService {
   ) {}
 
   async login(dto: LoginDto): Promise<TokensDto> {
-    const user = await this.userService.getUserByEmail(dto.email);
+    const user = await this.userService.getUserByEmail(dto.email, true);
     if (user) {
+      console.log(user);
       const userPassword = bcrypt.compareSync(dto.password, user.password);
       if (userPassword) {
         return await this.generateTokens(user);
@@ -60,7 +60,7 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(
         { ...payload, type: 'access' },
-        { expiresIn: '30m' },
+        { expiresIn: process.env.ACCESS_EXP },
       ),
       refresh_token: this.jwtService.sign(
         { ...payload, type: 'refresh' },

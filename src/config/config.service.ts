@@ -66,6 +66,7 @@ const configService = new ConfigService(process.env).ensureValues([
   'POSTGRES_USER',
   'POSTGRES_PASSWORD',
   'POSTGRES_DATABASE',
+  'ACCESS_EXP',
 ]);
 
 export { configService };

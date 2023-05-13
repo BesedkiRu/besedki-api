@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -9,6 +9,7 @@ import { OrganizationService } from './organization.service';
 import { CreateOrganizationDto } from './dto/createOrganization.dto';
 import { OrganizationEntity } from '../../models/Organization.entity';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Request } from 'express';
 
 @ApiTags('Организация')
 @Controller('organization')
@@ -22,7 +23,13 @@ export class OrganizationController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('/create')
-  getUserByToken(@Body() dto: CreateOrganizationDto) {
-    return this.organizationService.createOrganization(dto);
+  createOrganization(
+    @Body() dto: CreateOrganizationDto,
+    @Req() request: Request,
+  ) {
+    return this.organizationService.createOrganization({
+      ...dto,
+      user: request.user,
+    });
   }
 }

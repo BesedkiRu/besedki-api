@@ -73,17 +73,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   }
 }
 
-export const GlobalResponseError: (
+export function GlobalResponseError(
   statusCode: number,
   message: string | string[],
   code: string,
   request: Request,
-) => IResponseError = (
-  statusCode: number,
-  message: string | string[],
-  code: string,
-  request: Request,
-): IResponseError => {
+): IResponseError {
   return {
     statusCode: statusCode,
     message,
@@ -92,10 +87,11 @@ export const GlobalResponseError: (
     path: request.url,
     method: request.method,
   };
-};
+}
 
 export interface IResponseError {
   statusCode: number;
+  error?: string;
   message: string | string[];
   code: string;
   timestamp: string;

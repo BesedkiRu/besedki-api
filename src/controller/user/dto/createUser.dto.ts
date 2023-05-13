@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRole } from '../../../enum-types/enum-type';
+import { UserRole } from '../../../types/enum-type';
 
 export class CreateUserDto {
   readonly id: number;
