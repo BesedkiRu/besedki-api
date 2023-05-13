@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 import { UserEntity } from './User.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { PavilionEntity } from './Pavilion.entity';
+import { PavilionMapEntity } from './PavilionMap.entity';
 
 @Index('organization_pkey', ['id'], { unique: true })
 @Entity('organization', { schema: 'public' })
@@ -32,6 +34,12 @@ export class OrganizationEntity {
   @ApiProperty({ example: '+7 965 451 87 12' })
   @Column('text', { name: 'phone' })
   phone: string;
+
+  @OneToMany(
+    () => PavilionMapEntity,
+    (pavilionMap: PavilionMapEntity) => pavilionMap.organization,
+  )
+  pavilionMaps: PavilionEntity[];
 
   @OneToMany(() => UserEntity, (user: UserEntity) => user.organization)
   users: UserEntity[];

@@ -41,6 +41,7 @@ export class ReserveEntity {
   client: UserEntity | null;
 
   @ManyToOne(() => PavilionEntity, (pavilion: PavilionEntity) => pavilion.id, {
+    primary: true,
     onDelete: 'RESTRICT',
     onUpdate: 'RESTRICT',
   })

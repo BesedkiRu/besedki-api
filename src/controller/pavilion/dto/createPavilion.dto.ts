@@ -15,6 +15,11 @@ export class CreatePavilionDto {
   name: string;
 
   @IsNotEmpty()
+  @IsNumber({}, { each: true })
+  @ApiProperty({ example: [55.84158954990046, 48.968362759580394] })
+  coords: number[];
+
+  @IsNotEmpty()
   @IsNumber()
   @ApiProperty({ example: 70 })
   square: number;
@@ -51,7 +56,7 @@ export class CreatePavilionDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @ApiProperty({ example: 2 })
+  @ApiProperty({ example: 1 })
   pavilionMap: number;
 
   @IsOptional()

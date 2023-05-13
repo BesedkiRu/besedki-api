@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreatePavilionMapDto {
@@ -8,6 +8,16 @@ export class CreatePavilionMapDto {
   @IsString()
   @ApiProperty({ example: 'Лебяжье' })
   readonly name: string;
+
+  @IsNotEmpty()
+  @IsNumber({}, { each: true })
+  @ApiProperty({ example: [55.84158954990046, 48.968362759580394] })
+  readonly coords: number[];
+
+  @IsNotEmpty()
+  @IsNumber({}, { each: true })
+  @ApiProperty({ example: 1 })
+  readonly organization: number;
 
   @IsNotEmpty()
   @IsString()

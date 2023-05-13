@@ -21,6 +21,7 @@ export class ExtraServicePavilionEntity {
     () => PavilionEntity,
     (pavilion: PavilionEntity) => pavilion.extraServices,
     {
+      primary: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
@@ -32,6 +33,7 @@ export class ExtraServicePavilionEntity {
     () => ExtraServiceEntity,
     (extraService: ExtraServiceEntity) => extraService.id,
     {
+      primary: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },

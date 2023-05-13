@@ -3,12 +3,15 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { PavilionEntity } from './Pavilion.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { OrganizationEntity } from './Organization.entity';
 
 @Index('pavilion_map_pkey', ['id'], { unique: true })
 @Entity('pavilion_map', { schema: 'public' })
@@ -21,9 +24,26 @@ export class PavilionMapEntity {
   @Column('text', { name: 'name' })
   name: string;
 
+  @ApiProperty({ example: [55.84158954990046, 48.968362759580394] })
+  @Column('numeric', { name: 'coords', array: true })
+  coords: number[];
+
   @ApiProperty({ example: 'Респ. Татарстан, г. Казань, ул. Пушкина 152' })
   @Column('text', { name: 'address' })
   address: string;
+
+  @ApiProperty({ example: 2 })
+  @ManyToOne(
+    () => OrganizationEntity,
+    (organization: OrganizationEntity) => organization.id,
+    {
+      primary: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
+  )
+  @JoinColumn([{ name: 'organization_id', referencedColumnName: 'id' }])
+  organization: OrganizationEntity | number;
 
   @OneToMany(
     () => PavilionEntity,

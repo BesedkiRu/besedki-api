@@ -26,6 +26,10 @@ export class PavilionEntity {
   @Column('text', { name: 'name' })
   name: string;
 
+  @ApiProperty({ example: [55.84158954990046, 48.968362759580394] })
+  @Column('numeric', { name: 'coords', array: true })
+  coords: number[];
+
   @ApiProperty({ example: 70 })
   @Column('numeric', { name: 'square' })
   square: number;
@@ -63,6 +67,7 @@ export class PavilionEntity {
     () => PavilionMapEntity,
     (pavilionMap: PavilionMapEntity) => pavilionMap.id,
     {
+      primary: true,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     },
