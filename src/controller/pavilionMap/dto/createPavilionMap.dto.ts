@@ -15,11 +15,6 @@ export class CreatePavilionMapDto {
   readonly coords: number[];
 
   @IsNotEmpty()
-  @IsNumber({}, { each: true })
-  @ApiProperty({ example: 1 })
-  readonly organization: number;
-
-  @IsNotEmpty()
   @IsString()
   @ApiProperty({ example: 'Респ. Татарстан, г. Казань, ул. Пушкина 152' })
   readonly address: string;

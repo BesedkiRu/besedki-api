@@ -23,7 +23,7 @@ export class UserService {
         .where('user.email = :email', { email })
         .getOne();
     }
-    return await this.repo.findOne({ email });
+    return await this.repo.findOne({ email }, { loadRelationIds: true });
   }
 
   async getUserById(id: number, selectPassword = false) {
@@ -34,7 +34,7 @@ export class UserService {
         .where('user.id = :id', { id })
         .getOne();
     }
-    return await this.repo.findOne({ id });
+    return await this.repo.findOne({ id }, { loadRelationIds: true });
   }
 
   async updateUser(user: UserEntity) {

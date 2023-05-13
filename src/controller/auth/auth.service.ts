@@ -17,7 +17,6 @@ export class AuthService {
   async login(dto: LoginDto): Promise<TokensDto> {
     const user = await this.userService.getUserByEmail(dto.email, true);
     if (user) {
-      console.log(user);
       const userPassword = bcrypt.compareSync(dto.password, user.password);
       if (userPassword) {
         return await this.generateTokens(user);

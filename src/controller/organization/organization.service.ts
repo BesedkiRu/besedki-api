@@ -22,9 +22,7 @@ export class OrganizationService {
   async createOrganization(
     payload: CreateOrganizationPayload,
   ): Promise<OrganizationEntity> {
-    console.log(payload.user);
     if (payload.user.organization) {
-      console.log(1);
       throw new HttpException(
         'У пользователя уже есть огранизация',
         HttpStatus.UNPROCESSABLE_ENTITY,
