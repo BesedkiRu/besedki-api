@@ -36,8 +36,4 @@ export class UserService {
     }
     return await this.repo.findOne({ id }, { relations: ['organization'] });
   }
-
-  async updateUser(user: UserEntity) {
-    return await this.repo.save(user);
-  }
 }
