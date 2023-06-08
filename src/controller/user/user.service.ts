@@ -34,7 +34,7 @@ export class UserService {
         .where('user.id = :id', { id })
         .getOne();
     }
-    return await this.repo.findOne({ id }, { loadRelationIds: true });
+    return await this.repo.findOne({ id }, { relations: ['organization'] });
   }
 
   async updateUser(user: UserEntity) {
