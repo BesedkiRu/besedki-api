@@ -5,6 +5,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TokensDto } from './dto/tokens.dto';
 import { CreateUserDto } from '../user/dto/createUser.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { OauthDto } from './dto/oauth.dto';
 
 @ApiTags('Авторизация')
 @Controller('auth')
@@ -18,6 +19,15 @@ export class AuthController {
   @Post('/login')
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
+  }
+
+  @ApiOperation({
+    summary: 'OAuth авторизация',
+  })
+  @ApiResponse({ type: TokensDto, status: 200 })
+  @Post('/social')
+  oauthLogin(@Body() dto: OauthDto) {
+    return this.authService.oauthLogin(dto);
   }
 
   @ApiOperation({ summary: 'Регистрация пользователя' })

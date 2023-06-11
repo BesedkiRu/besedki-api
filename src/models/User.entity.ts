@@ -28,7 +28,7 @@ export class UserEntity {
   surname: string;
 
   @ApiProperty({ example: 'example@mail.ru' })
-  @Column('text', { name: 'email' })
+  @Column('text', { name: 'email', unique: true })
   email: string;
 
   @Column('text', { name: 'password', select: false })

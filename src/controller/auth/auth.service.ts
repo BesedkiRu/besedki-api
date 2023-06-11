@@ -6,6 +6,8 @@ import { TokensDto } from './dto/tokens.dto';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from '../user/dto/createUser.dto';
 import { RefreshTokenDto } from './dto/refreshToken.dto';
+import { OauthDto } from './dto/oauth.dto';
+import axios from 'axios';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,50 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
+
+  async oauthLogin(dto: OauthDto): Promise<any> {
+    try {
+      const $axios = axios.create();
+      const response = await $axios.post(
+        'https://oauth2.googleapis.com/token',
+        {
+          code: dto.code,
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          redirect_uri: process.env.FRONT_URL + '/callback/google',
+          grant_type: 'authorization_code',
+        },
+      );
+      const token = response.data.access_token;
+      const profileResponse = await $axios.get(
+        'https://openidconnect.googleapis.com/v1/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const findUser = await this.userService.getUserByEmail(
+        profileResponse.data.email,
+      );
+      if (findUser) {
+        return this.generateTokens(findUser);
+      } else {
+        const createdUser = await this.userService.createUser({
+          name: profileResponse.data.given_name,
+          surname: profileResponse.data.family_name,
+          email: profileResponse.data.email,
+          password: await bcrypt.hash(token, 5),
+        });
+        return this.generateTokens(createdUser);
+      }
+    } catch (e) {
+      throw new HttpException(
+        'Ошибка авторизации. Попробуйте позже.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   async login(dto: LoginDto): Promise<TokensDto> {
     const user = await this.userService.getUserByEmail(dto.email, true);

@@ -3,8 +3,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../../../types/enum-type';
 
 export class UserDto {
-  readonly id: number;
-  readonly role: UserRole;
+  readonly id?: number;
+  readonly role?: UserRole;
 
   @IsNotEmpty()
   @IsString()

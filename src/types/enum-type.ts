@@ -9,3 +9,8 @@ export enum PavilionType {
   HOUSE = 'house',
   PAVILION = 'pavilion',
 }
+
+export enum Social {
+  GOOGLE = 'google',
+  VK = 'vk',
+}

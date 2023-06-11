@@ -67,6 +67,9 @@ const configService = new ConfigService(process.env).ensureValues([
   'POSTGRES_PASSWORD',
   'POSTGRES_DATABASE',
   'ACCESS_EXP',
+  'GOOGLE_CLIENT_ID',
+  'GOOGLE_CLIENT_SECRET',
+  'FRONT_URL',
 ]);
 
 export { configService };
