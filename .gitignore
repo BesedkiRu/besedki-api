@@ -2,6 +2,8 @@
 /dist
 /node_modules
 .env
+.env.prod
+ormconfig.prod.json
 .prod.env
 # Logs
 logs
