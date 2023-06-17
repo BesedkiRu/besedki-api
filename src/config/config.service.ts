@@ -53,7 +53,9 @@ class ConfigService {
       ],
 
       cli: {
-        migrationsDir: 'src/migration',
+        migrationsDir: `${
+          this.isProduction() ? 'dist/migration/*.js' : 'src/migration/*.ts'
+        }`,
       },
       ssl: this.isProduction() ? { rejectUnauthorized: false } : false,
     };
