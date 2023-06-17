@@ -49,12 +49,14 @@ class ConfigService {
       migrationsTableName: 'migration',
 
       migrations: [
-        `${this.isProduction() ? 'dist/migration/*.js' : 'src/migration/*.ts'}`,
+        `${
+          this.isProduction() ? 'dist/src/migration/*.js' : 'src/migration/*.ts'
+        }`,
       ],
 
       cli: {
         migrationsDir: `${
-          this.isProduction() ? 'dist/migration/*.js' : 'src/migration/*.ts'
+          this.isProduction() ? 'dist/src/migration/*.js' : 'src/migration/*.ts'
         }`,
       },
       ssl: this.isProduction() ? { rejectUnauthorized: false } : false,
