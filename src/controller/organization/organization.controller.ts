@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -31,5 +39,33 @@ export class OrganizationController {
       ...dto,
       user: request.user,
     });
+  }
+
+  @ApiOperation({
+    summary: 'Изменить организацию',
+  })
+  @ApiResponse({ type: OrganizationEntity, status: 200 })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Patch('')
+  updateOrganization(
+    @Body() dto: CreateOrganizationDto,
+    @Req() request: Request,
+  ) {
+    return this.organizationService.updateOrganization({
+      ...dto,
+      user: request.user,
+    });
+  }
+
+  @ApiOperation({
+    summary: 'Удалить организацию',
+  })
+  @ApiResponse({ type: OrganizationEntity, status: 200 })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Delete('')
+  deleteOrganization(@Req() request: Request) {
+    return this.organizationService.deleteOrganization(request.user);
   }
 }

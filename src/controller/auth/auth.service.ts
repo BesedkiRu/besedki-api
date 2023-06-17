@@ -123,7 +123,12 @@ export class AuthService {
           return await this.generateTokens(user);
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      throw new HttpException(
+        'Произошла ошибка. Попробуйте позже',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
     throw new HttpException(
       'Токен невалидный или истек срок годности',
       HttpStatus.UNAUTHORIZED,

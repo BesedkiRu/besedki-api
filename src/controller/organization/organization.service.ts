@@ -7,7 +7,7 @@ import { UserEntity } from '../../models/User.entity';
 import { UserService } from '../user/user.service';
 import { UserRole } from '../../types/enum-type';
 
-interface CreateOrganizationPayload extends CreateOrganizationDto {
+interface OrganizationRequestPayload extends CreateOrganizationDto {
   user: UserEntity;
 }
 
@@ -23,7 +23,7 @@ export class OrganizationService {
   ) {}
 
   async createOrganization(
-    payload: CreateOrganizationPayload,
+    payload: OrganizationRequestPayload,
   ): Promise<OrganizationEntity> {
     if (payload.user.organization) {
       throw new HttpException(
@@ -59,5 +59,41 @@ export class OrganizationService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async updateOrganization(payload: OrganizationRequestPayload) {
+    if (!payload.user.organization) {
+      throw new HttpException(
+        'У пользователя нет огранизация',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    if (payload.user.organization instanceof OrganizationEntity) {
+      return await this.repo.save({
+        ...payload,
+        id: payload.user.organization.id,
+      });
+    }
+    throw new HttpException(
+      'Не удалось обновить данные организации. Попробуйте позже',
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  async deleteOrganization(user: UserEntity) {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет огранизация',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    if (user.organization instanceof OrganizationEntity) {
+      await this.repo.softDelete({ id: user.organization.id });
+      return user.organization;
+    }
+    throw new HttpException(
+      'Не удалось удалить организацию. Попробуйте позже',
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
   }
 }

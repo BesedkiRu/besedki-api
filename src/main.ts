@@ -9,12 +9,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new GlobalExceptionFilter());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   const document = SwaggerModule.createDocument(
     app,
     new DocumentBuilder()
-      .setTitle('Item API')
-      .setDescription('My Item API')
+      .setTitle('Besedki.ru API')
+      .setDescription('API documentation for web-application of Besedki.ru')
       .addBearerAuth()
       .build(),
   );

@@ -1,12 +1,12 @@
 {
   "type": "postgres",
-  "host": "dpg-ch288f5gk4qarqnugh50-a.frankfurt-postgres.render.com",
+  "host": "127.0.0.1",
   "port": 5432,
-  "username": "besedki_api_v2_user",
-  "password": "SWWML5hPw0siv90tsMNGqDMBZEaak2kW",
-  "database": "besedki_api_v2",
+  "username": "postgres",
+  "password": "root",
+  "database": "besedki-api",
   "entities": [
-    "dist/**/*.entity{.ts,.js}"
+    "src/**/*.entity{.ts,.js}"
   ],
   "migrationsTableName": "migration",
   "migrations": [
@@ -15,7 +15,5 @@
   "cli": {
     "migrationsDir": "src/migration"
   },
-  "ssl": {
-    "rejectUnauthorized": false
-  }
+  "ssl": false
 }

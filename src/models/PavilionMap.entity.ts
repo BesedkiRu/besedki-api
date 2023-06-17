@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -62,4 +63,7 @@ export class PavilionMapEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   public updated_at: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

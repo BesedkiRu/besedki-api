@@ -1,6 +1,7 @@
 import {
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   Index,
   OneToMany,
@@ -55,4 +56,7 @@ export class OrganizationEntity {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   public updated_at: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
