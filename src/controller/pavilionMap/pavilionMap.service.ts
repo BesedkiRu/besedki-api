@@ -23,6 +23,10 @@ export class PavilionMapService {
     return await this.repo.save({ ...dto, organization: user.organization });
   }
 
+  async getPavilionMapById(id: number) {
+    return this.repo.findOne({ id }, { relations: ['organization'] });
+  }
+
   async getPavilionMaps(
     pageOptionsDto: PageOptionsDto,
     user: UserEntity,
@@ -44,6 +48,10 @@ export class PavilionMapService {
 
       return new PageDto(entities, pageMetaDto);
     }
+    throw new HttpException(
+      'Не удалось получить карты беседок беседок. Попробуйте позже',
+      HttpStatus.INTERNAL_SERVER_ERROR,
+    );
   }
 
   async deletePavilionMap(pavilionMapId: number, user: UserEntity) {
@@ -70,7 +78,7 @@ export class PavilionMapService {
     }
     throw new HttpException(
       'Не удалось удалить карту беседок. Попробуйте позже',
-      HttpStatus.UNPROCESSABLE_ENTITY,
+      HttpStatus.INTERNAL_SERVER_ERROR,
     );
   }
 }

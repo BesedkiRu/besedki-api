@@ -63,7 +63,6 @@ export class PavilionMapController {
   @ApiParam({ name: 'id' })
   @Delete(':id')
   deletePavilionMap(@Req() request: Request, @Param() params) {
-    console.log(params);
     return this.pavilionMapService.deletePavilionMap(
       parseInt(params.id),
       request.user,

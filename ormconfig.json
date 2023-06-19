@@ -13,7 +13,7 @@
     "src/migration/*.ts"
   ],
   "cli": {
-    "migrationsDir": "src/migration"
+    "migrationsDir": "src/migration/*.ts"
   },
   "ssl": false
 }

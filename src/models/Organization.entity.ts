@@ -57,6 +57,6 @@ export class OrganizationEntity {
   })
   public updated_at: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt?: Date;
 }
