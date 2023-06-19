@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -23,6 +24,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { getPavilionMapItemsDto } from './dto/getPavilionMapItems.dto';
 import { Request } from 'express';
 import { PageDto } from '../../utils/pagination/page.dto';
+import { PavilionMapEntity } from '../../models/PavilionMap.entity';
 
 @ApiTags('Беседка')
 @Controller('pavilion')
@@ -43,7 +45,7 @@ export class PavilionController {
   @ApiOperation({
     summary: 'Получить все беседки',
   })
-  @ApiResponse({ type: PavilionEntity, status: 200 })
+  @ApiResponse({ type: PageDto, status: 200 })
   @Get('')
   getAllPavilions(@Query() dto: PageOptionsDto) {
     return this.pavilionService.getAllPavilions(dto);
@@ -64,6 +66,21 @@ export class PavilionController {
       dto,
       request.user,
       params.pavilionMapId,
+    );
+  }
+
+  @ApiOperation({
+    summary: 'Удалить беседку',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: PavilionEntity, status: 200 })
+  @ApiParam({ name: 'id' })
+  @Delete(':id')
+  deletePavilionMap(@Req() request: Request, @Param() params) {
+    return this.pavilionService.deletePavilion(
+      parseInt(params.id),
+      request.user,
     );
   }
 }
