@@ -51,7 +51,6 @@ export class OrganizationService {
       return savedOrganization;
     } catch (e) {
       await queryRunner.rollbackTransaction();
-      console.log(e);
       throw new HttpException(
         'Не удалось создать организацию. Попробуйте позже',
         HttpStatus.INTERNAL_SERVER_ERROR,

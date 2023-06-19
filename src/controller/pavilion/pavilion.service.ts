@@ -47,7 +47,6 @@ export class PavilionService {
     const targetPavilionMap = await this.pavilionMapService.getPavilionMapById(
       pavilionMapId,
     );
-    console.log(targetPavilionMap);
     if (targetPavilionMap) {
       const queryBuilder = this.repo.createQueryBuilder('pavilion');
       queryBuilder
