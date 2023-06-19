@@ -8,8 +8,8 @@ import {
 import { UserService } from './user.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserEntity } from '../../models/User.entity';
-import { UpdateUserDto } from './dto/updateUser.dto';
 import { Request } from 'express';
+import { UserDto } from './dto/User.dto';
 
 @ApiTags('Пользователь')
 @Controller('user')
@@ -34,7 +34,7 @@ export class UserController {
   @ApiBearerAuth()
   @ApiResponse({ type: UserEntity, status: 200 })
   @Patch()
-  updateUserByToken(@Req() request: Request, @Body() dto: UpdateUserDto) {
+  updateUserByToken(@Req() request: Request, @Body() dto: UserDto) {
     return this.userService.updateUser({ ...dto, id: request.user.id });
   }
 }
