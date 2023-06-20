@@ -36,6 +36,29 @@ export class PavilionMapService {
 
   async getPavilionMaps(
     pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<PavilionMapEntity>> {
+    try {
+      const queryBuilder = this.repo.createQueryBuilder('pavilion_map');
+      queryBuilder
+        .orderBy('pavilion_map.id', pageOptionsDto.order)
+        .skip(pageOptionsDto.skip)
+        .take(pageOptionsDto.take);
+      const itemCount = await queryBuilder.getCount();
+      const { entities } = await queryBuilder.getRawAndEntities();
+
+      const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+
+      return new PageDto(entities, pageMetaDto);
+    } catch (e) {
+      throw new HttpException(
+        'Не удалось получить карты беседок беседок. Попробуйте позже',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getOwnerPavilionMaps(
+    pageOptionsDto: PageOptionsDto,
     user: UserEntity,
   ): Promise<PageDto<PavilionMapEntity>> {
     if (!user.organization) {

@@ -46,14 +46,23 @@ export class PavilionMapController {
   }
 
   @ApiOperation({
+    summary: 'Получить список всех карт беседок',
+  })
+  @ApiResponse({ type: PageDto, status: 200 })
+  @Get()
+  getPavilionMaps(@Query() dto: PageOptionsDto) {
+    return this.pavilionMapService.getPavilionMaps(dto);
+  }
+
+  @ApiOperation({
     summary: 'Получить список карт беседок пользователя',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ type: PageDto, status: 200 })
   @Get('/owner')
-  getPavilionMaps(@Query() dto: PageOptionsDto, @Req() request: Request) {
-    return this.pavilionMapService.getPavilionMaps(dto, request.user);
+  getOwnerPavilionMaps(@Query() dto: PageOptionsDto, @Req() request: Request) {
+    return this.pavilionMapService.getOwnerPavilionMaps(dto, request.user);
   }
 
   @ApiOperation({
