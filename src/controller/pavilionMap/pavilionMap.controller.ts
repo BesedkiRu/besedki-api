@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -23,6 +24,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PageDto } from '../../utils/pagination/page.dto';
 import { PageOptionsDto } from '../../utils/dtos';
+import { UpdatePavilionMapDto } from './dto/updatePavilionMap.dto';
 
 @ApiTags('Карта беседок')
 @Controller('pavilion_map')
@@ -67,5 +69,19 @@ export class PavilionMapController {
       parseInt(params.id),
       request.user,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Изменить карту беседок',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: PavilionMapEntity, status: 200 })
+  @Patch('')
+  updatePavilionMap(
+    @Body() dto: UpdatePavilionMapDto,
+    @Req() request: Request,
+  ) {
+    return this.pavilionMapService.updatePavilionMap(dto, request.user);
   }
 }

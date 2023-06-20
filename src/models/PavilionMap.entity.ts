@@ -33,7 +33,7 @@ export class PavilionMapEntity {
   @Column('text', { name: 'address' })
   address: string;
 
-  @ApiProperty({ example: 2 })
+  @ApiProperty({ example: OrganizationEntity })
   @ManyToOne(
     () => OrganizationEntity,
     (organization: OrganizationEntity) => organization.id,

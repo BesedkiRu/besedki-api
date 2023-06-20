@@ -8,6 +8,7 @@ import { PageOptionsDto } from '../../utils/dtos';
 import { PageDto } from '../../utils/pagination/page.dto';
 import { PageMetaDto } from '../../utils/pagination/page-meta.dto';
 import { OrganizationEntity } from '../../models/Organization.entity';
+import { UpdatePavilionMapDto } from './dto/updatePavilionMap.dto';
 
 @Injectable()
 export class PavilionMapService {
@@ -80,5 +81,29 @@ export class PavilionMapService {
       'Не удалось удалить карту беседок. Попробуйте позже',
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
+  }
+
+  async updatePavilionMap(pavilionMap: UpdatePavilionMapDto, user: UserEntity) {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет огранизация',
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    if (user.organization instanceof OrganizationEntity) {
+      const targetPavilionMap = await this.repo.findOne({
+        id: pavilionMap.id,
+        organization: user.organization.id,
+      });
+      if (targetPavilionMap) {
+        await this.repo.update({ id: pavilionMap.id }, pavilionMap);
+        return pavilionMap;
+      } else {
+        throw new HttpException(
+          'Такой карты беседок не существует',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
   }
 }
