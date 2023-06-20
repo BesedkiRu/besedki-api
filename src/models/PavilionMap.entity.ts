@@ -13,6 +13,7 @@ import {
 import { PavilionEntity } from './Pavilion.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { OrganizationEntity } from './Organization.entity';
+import { Exclude } from 'class-transformer';
 
 @Index('pavilion_map_pkey', ['id'], { unique: true })
 @Entity('pavilion_map', { schema: 'public' })
@@ -65,5 +66,6 @@ export class PavilionMapEntity {
   public updated_at: Date;
 
   @DeleteDateColumn({ select: false })
+  @Exclude()
   deletedAt: Date;
 }

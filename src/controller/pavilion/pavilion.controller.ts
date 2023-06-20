@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -23,6 +24,7 @@ import { PageOptionsDto } from '../../utils/dtos';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Request } from 'express';
 import { PageDto } from '../../utils/pagination/page.dto';
+import { UpdatePavilionDto } from './dto/updatePavilion.dto';
 
 @ApiTags('Беседка')
 @Controller('pavilion')
@@ -36,8 +38,8 @@ export class PavilionController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('/create')
-  createPavilion(@Body() dto: CreatePavilionDto) {
-    return this.pavilionService.createPavilion(dto);
+  createPavilion(@Body() dto: CreatePavilionDto, @Req() req: Request) {
+    return this.pavilionService.createPavilion(dto, req.user);
   }
 
   @ApiOperation({
@@ -80,5 +82,16 @@ export class PavilionController {
       parseInt(params.id),
       request.user,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Изменить беседку',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: PavilionEntity, status: 200 })
+  @Patch('')
+  updatePavilionMap(@Body() dto: UpdatePavilionDto, @Req() request: Request) {
+    return this.pavilionService.updatePavilion(dto, request.user);
   }
 }

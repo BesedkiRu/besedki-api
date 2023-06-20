@@ -21,6 +21,12 @@ export class PavilionMapService {
     dto: CreatePavilionMapDto,
     user: UserEntity,
   ): Promise<PavilionMapEntity> {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
+      );
+    }
     return await this.repo.save({ ...dto, organization: user.organization });
   }
 
@@ -32,6 +38,12 @@ export class PavilionMapService {
     pageOptionsDto: PageOptionsDto,
     user: UserEntity,
   ): Promise<PageDto<PavilionMapEntity>> {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
+      );
+    }
     const queryBuilder = this.repo.createQueryBuilder('pavilion_map');
 
     if (user.organization instanceof OrganizationEntity) {
@@ -58,8 +70,8 @@ export class PavilionMapService {
   async deletePavilionMap(pavilionMapId: number, user: UserEntity) {
     if (!user.organization) {
       throw new HttpException(
-        'У пользователя нет огранизация',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
       );
     }
     if (user.organization instanceof OrganizationEntity) {
@@ -86,8 +98,8 @@ export class PavilionMapService {
   async updatePavilionMap(pavilionMap: UpdatePavilionMapDto, user: UserEntity) {
     if (!user.organization) {
       throw new HttpException(
-        'У пользователя нет огранизация',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
       );
     }
     if (user.organization instanceof OrganizationEntity) {
@@ -97,7 +109,7 @@ export class PavilionMapService {
       });
       if (targetPavilionMap) {
         await this.repo.update({ id: pavilionMap.id }, pavilionMap);
-        return pavilionMap;
+        return { ...targetPavilionMap, ...pavilionMap };
       } else {
         throw new HttpException(
           'Такой карты беседок не существует',

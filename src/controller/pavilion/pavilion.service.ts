@@ -10,6 +10,7 @@ import { UserEntity } from '../../models/User.entity';
 import { PavilionMapService } from '../pavilionMap/pavilionMap.service';
 import { OrganizationEntity } from '../../models/Organization.entity';
 import { PavilionMapEntity } from '../../models/PavilionMap.entity';
+import { UpdatePavilionDto } from './dto/updatePavilion.dto';
 
 @Injectable()
 export class PavilionService {
@@ -19,8 +20,36 @@ export class PavilionService {
     private readonly pavilionMapService: PavilionMapService,
   ) {}
 
-  async createPavilion(dto: CreatePavilionDto): Promise<PavilionEntity> {
-    return await this.repo.save(dto);
+  async createPavilion(
+    dto: CreatePavilionDto,
+    user: UserEntity,
+  ): Promise<PavilionEntity> {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    if (user.organization instanceof OrganizationEntity) {
+      const targetPavilionMap =
+        await this.pavilionMapService.getPavilionMapById(dto.pavilionMap);
+      if (
+        targetPavilionMap.organization instanceof OrganizationEntity &&
+        targetPavilionMap.organization.id === user.organization.id
+      ) {
+        return await this.repo.save(dto);
+      } else {
+        throw new HttpException(
+          'Такой карты беседок не существует',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    } else {
+      throw new HttpException(
+        'Не удалось создать беседку. Попробуйте позже',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   async getAllPavilions(
@@ -76,8 +105,8 @@ export class PavilionService {
   async deletePavilion(pavilionId: number, user: UserEntity) {
     if (!user.organization) {
       throw new HttpException(
-        'У пользователя нет огранизация',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
       );
     }
     if (user.organization instanceof OrganizationEntity) {
@@ -95,6 +124,37 @@ export class PavilionService {
       ) {
         await this.repo.softDelete({ id: pavilionId });
         return targetPavilion;
+      } else {
+        throw new HttpException(
+          'Такой беседки не существует',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+    }
+  }
+
+  async updatePavilion(pavilion: UpdatePavilionDto, user: UserEntity) {
+    if (!user.organization) {
+      throw new HttpException(
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
+      );
+    }
+    if (user.organization instanceof OrganizationEntity) {
+      const targetPavilion = await this.repo.findOne(
+        {
+          id: pavilion.id,
+        },
+        { relations: ['pavilionMap', 'pavilionMap.organization'] },
+      );
+      if (
+        targetPavilion &&
+        targetPavilion.pavilionMap instanceof PavilionMapEntity &&
+        targetPavilion.pavilionMap.organization instanceof OrganizationEntity &&
+        targetPavilion.pavilionMap.organization.id === user.organization.id
+      ) {
+        await this.repo.update({ id: pavilion.id }, pavilion);
+        return { ...targetPavilion, ...pavilion };
       } else {
         throw new HttpException(
           'Такой беседки не существует',

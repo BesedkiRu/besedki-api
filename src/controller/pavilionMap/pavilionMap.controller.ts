@@ -46,12 +46,12 @@ export class PavilionMapController {
   }
 
   @ApiOperation({
-    summary: 'Получить список карт беседок',
+    summary: 'Получить список карт беседок пользователя',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ type: PageDto, status: 200 })
-  @Get()
+  @Get('/owner')
   getPavilionMaps(@Query() dto: PageOptionsDto, @Req() request: Request) {
     return this.pavilionMapService.getPavilionMaps(dto, request.user);
   }
