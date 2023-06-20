@@ -15,7 +15,6 @@ import { ExtraServicePavilionEntity } from './ExtraServicePavilion.entity';
 import { PavilionType } from '../types/enum-type';
 import { ApiProperty } from '@nestjs/swagger';
 import { serviceExample } from '../types/examples';
-import { Exclude } from 'class-transformer';
 
 @Index('pavilion_pkey', ['id'], { unique: true })
 @Entity('pavilion', { schema: 'public' })

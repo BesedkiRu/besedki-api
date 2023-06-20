@@ -21,10 +21,8 @@ import { CreatePavilionDto } from './dto/createPavilion.dto';
 import { PavilionEntity } from '../../models/Pavilion.entity';
 import { PageOptionsDto } from '../../utils/dtos';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { getPavilionMapItemsDto } from './dto/getPavilionMapItems.dto';
 import { Request } from 'express';
 import { PageDto } from '../../utils/pagination/page.dto';
-import { PavilionMapEntity } from '../../models/PavilionMap.entity';
 
 @ApiTags('Беседка')
 @Controller('pavilion')

@@ -8,7 +8,6 @@ import { PageDto } from '../../utils/pagination/page.dto';
 import { PageMetaDto } from '../../utils/pagination/page-meta.dto';
 import { UserEntity } from '../../models/User.entity';
 import { PavilionMapService } from '../pavilionMap/pavilionMap.service';
-import { getPavilionMapItemsDto } from './dto/getPavilionMapItems.dto';
 import { OrganizationEntity } from '../../models/Organization.entity';
 import { PavilionMapEntity } from '../../models/PavilionMap.entity';
 
