@@ -96,6 +96,6 @@ export class PavilionEntity {
   })
   public updated_at: Date;
 
-  @DeleteDateColumn()
+  @DeleteDateColumn({ select: false })
   deletedAt: Date;
 }

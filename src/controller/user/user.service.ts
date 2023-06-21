@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../../models/User.entity';
 import { CreateUserDto } from './dto/createUser.dto';
-import { UpdateUserDto } from './dto/updateUser.dto';
+import { UserDto } from './dto/User.dto';
 
 @Injectable()
 export class UserService {
@@ -38,7 +38,7 @@ export class UserService {
     return await this.repo.findOne({ id }, { relations: ['organization'] });
   }
 
-  async updateUser(user: UpdateUserDto) {
+  async updateUser(user: UserDto) {
     return await this.repo.save(user);
   }
 }

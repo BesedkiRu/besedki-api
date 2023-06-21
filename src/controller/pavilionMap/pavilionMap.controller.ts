@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -23,6 +24,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PageDto } from '../../utils/pagination/page.dto';
 import { PageOptionsDto } from '../../utils/dtos';
+import { UpdatePavilionMapDto } from './dto/updatePavilionMap.dto';
 
 @ApiTags('Карта беседок')
 @Controller('pavilion_map')
@@ -44,14 +46,23 @@ export class PavilionMapController {
   }
 
   @ApiOperation({
-    summary: 'Получить список карт беседок',
+    summary: 'Получить список всех карт беседок',
+  })
+  @ApiResponse({ type: PageDto, status: 200 })
+  @Get()
+  getPavilionMaps(@Query() dto: PageOptionsDto) {
+    return this.pavilionMapService.getPavilionMaps(dto);
+  }
+
+  @ApiOperation({
+    summary: 'Получить список карт беседок пользователя',
   })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ type: PageDto, status: 200 })
-  @Get()
-  getPavilionMaps(@Query() dto: PageOptionsDto, @Req() request: Request) {
-    return this.pavilionMapService.getPavilionMaps(dto, request.user);
+  @Get('/owner')
+  getOwnerPavilionMaps(@Query() dto: PageOptionsDto, @Req() request: Request) {
+    return this.pavilionMapService.getOwnerPavilionMaps(dto, request.user);
   }
 
   @ApiOperation({
@@ -63,10 +74,23 @@ export class PavilionMapController {
   @ApiParam({ name: 'id' })
   @Delete(':id')
   deletePavilionMap(@Req() request: Request, @Param() params) {
-    console.log(params);
     return this.pavilionMapService.deletePavilionMap(
       parseInt(params.id),
       request.user,
     );
+  }
+
+  @ApiOperation({
+    summary: 'Изменить карту беседок',
+  })
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ type: PavilionMapEntity, status: 200 })
+  @Patch('')
+  updatePavilionMap(
+    @Body() dto: UpdatePavilionMapDto,
+    @Req() request: Request,
+  ) {
+    return this.pavilionMapService.updatePavilionMap(dto, request.user);
   }
 }

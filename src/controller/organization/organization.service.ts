@@ -51,7 +51,6 @@ export class OrganizationService {
       return savedOrganization;
     } catch (e) {
       await queryRunner.rollbackTransaction();
-      console.log(e);
       throw new HttpException(
         'Не удалось создать организацию. Попробуйте позже',
         HttpStatus.INTERNAL_SERVER_ERROR,
@@ -64,8 +63,8 @@ export class OrganizationService {
   async updateOrganization(payload: OrganizationRequestPayload) {
     if (!payload.user.organization) {
       throw new HttpException(
-        'У пользователя нет огранизация',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
       );
     }
     if (payload.user.organization instanceof OrganizationEntity) {
@@ -83,8 +82,8 @@ export class OrganizationService {
   async deleteOrganization(user: UserEntity) {
     if (!user.organization) {
       throw new HttpException(
-        'У пользователя нет огранизация',
-        HttpStatus.UNPROCESSABLE_ENTITY,
+        'У пользователя нет организации',
+        HttpStatus.FORBIDDEN,
       );
     }
 
