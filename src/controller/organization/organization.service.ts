@@ -87,13 +87,34 @@ export class OrganizationService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-    if (user.organization instanceof OrganizationEntity) {
-      await this.repo.softDelete({ id: user.organization.id });
-      return user.organization;
+
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      if (user.organization instanceof OrganizationEntity) {
+        await queryRunner.manager.softDelete(OrganizationEntity, {
+          id: user.organization.id,
+        });
+
+        const targetUser: UserEntity = await this.userService.getUserById(
+          user.id,
+        );
+        targetUser.role = UserRole.CLIENT;
+        await queryRunner.manager.save(targetUser);
+
+        await queryRunner.commitTransaction();
+        return HttpStatus.OK;
+      }
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      console.log(e);
+      throw new HttpException(
+        'Не удалось создать организацию. Попробуйте позже',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    } finally {
+      await queryRunner.release();
     }
-    throw new HttpException(
-      'Не удалось удалить организацию. Попробуйте позже',
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
   }
 }
